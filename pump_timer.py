@@ -3,27 +3,33 @@
 import sdnotify
 import pigpio
 import time
+import sys
 
 WDOG_INTERVAL=15
 
 # Specify rest time and pump duration, both in seconds
 REST_TIME = 300
-PUMP_DURATION = 20
+PUMP_DURATION = 15
 
 # This is the broadcom pin identifier
 PUMP_PIN = 22
 
+def log(msg):
+    print(msg)
+    sys.stdout.flush()
+    return
+
 def turn_on_pump():
     global pi
-    print("Turning on")
+    log("Turning on")
     pi.write(PUMP_PIN, 1)
-    pass
+    return
 
 def turn_off_pump():
     global pi
-    print("Turning off")
+    log("Turning off")
     pi.write(PUMP_PIN, 0)
-    pass
+    return
 
 def configure_gpio():
     pi = pigpio.pi()
@@ -31,6 +37,7 @@ def configure_gpio():
     return pi
 
 def sleep(sleep_time):
+    log("Sleeping for {} seconds".format(sleep_time))
     for intervals in range(int(sleep_time)/WDOG_INTERVAL):
         time.sleep(WDOG_INTERVAL)
         n.notify("WATCHDOG=1")
