@@ -10,10 +10,10 @@ WDOG_INTERVAL=15
 
 # Specify rest time and pump duration, both in seconds
 REST_TIME = 300
-PUMP_DURATION = 15
+PUMP_DURATION = 10
 
 # This is the broadcom pin identifier
-PUMP_PIN = 22
+PUMP_PIN = 17
 
 def log(msg):
     print(msg)
@@ -44,10 +44,13 @@ def configure_gpio():
 
 def sleep(sleep_time):
     log("Sleeping for {} seconds".format(sleep_time))
-    for intervals in range(int(sleep_time)/WDOG_INTERVAL):
-        time.sleep(WDOG_INTERVAL)
-        if n:
-            n.notify("WATCHDOG=1")
+    if sleep_time < WDOG_INTERVAL:
+        time.sleep(sleep_time)
+    else:
+        for intervals in range(int(sleep_time)/WDOG_INTERVAL):
+            time.sleep(WDOG_INTERVAL)
+            if n:
+                n.notify("WATCHDOG=1")
     return
 
 if __name__ == "__main__":

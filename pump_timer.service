@@ -1,5 +1,5 @@
 [Unit]
-Description=Turns the grow lights on and off at specified times
+Description=Turns the pump on and off at specific intervals
 # For instructions on setting this up in a new system see below comments
 # sudo cp pump_timer.service /etc/systemd/system/pump_timer.service
 # sudo systemctl daemon-reload
@@ -18,7 +18,6 @@ ExecStart=/home/aero/pump_timer/pump_timer.py
 WatchdogSec=120
 NotifyAccess=all
 Restart=always
-
 
 [Install]
 WantedBy=multi-user.target
